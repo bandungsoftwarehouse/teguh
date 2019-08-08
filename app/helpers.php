@@ -7,3 +7,10 @@ if (! function_exists('localasset')) {
     }
 }
 
+if (! function_exists('render')) {
+    function render($view = null, $data = [], $mergeData = []) {
+        $view = env('TEMPLATE') . '.' . $view;
+        return view($view, $data, $mergeData);
+    }
+}
+
