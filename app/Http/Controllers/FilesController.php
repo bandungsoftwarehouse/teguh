@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Files;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class FilesController extends Controller
 {
@@ -16,6 +17,7 @@ class FilesController extends Controller
     public static function pathGenerator($path)
     {
         $uuid = '';
+        if(!auth()->check()) return $path;
         $file = Files::where('path',$path)
                         ->where('userid',auth()->user()->id)
                         ->first();
@@ -23,7 +25,7 @@ class FilesController extends Controller
         switch($ext) {
             case 'swf' : $mime = 'x-shockwave-flash';break;
             case 'js'  : $mime = 'text/plain';break;
-            case 'css' : $mime = 'text/plain';break;
+            case 'css' : $mime = 'text/css';break;
             case 'jpg' : $mime = 'image/jpeg';break;
             case 'jpeg': $mime = 'image/jpeg';break;
             case 'png' : $mime = 'image/png';break;
@@ -38,12 +40,14 @@ class FilesController extends Controller
                 'userid' => auth()->user()->id,
                 'uuid' => $uuid,
                 'path' => $path,
-                'mime' => $mime
+                'mime' => $mime,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
             ]);
         } else {
             $uuid = $file->uuid;
         }
-        return '/assets/' . $uuid;
+        return '/a/' . $uuid;
     }
 
     public function getFile($uuid){
@@ -65,7 +69,7 @@ class FilesController extends Controller
                     if($ext=='css')$dir = '/css';
                     break;
             }
-            $path = base_path().'/app/Assets'.$dir.'/'.$file->path;
+            $path = base_path().'/app/Assets/'.$file->path;
             $type = $file->mime;
             $file->delete();
         } else {

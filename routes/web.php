@@ -10,7 +10,14 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/assets/{file}','FilesController@getFile');
-Route::get('/', function () {
+Route::get('/',function(){
     return view('welcome');
 });
+Route::auth();
+Route::get('/a/{file}','FilesController@getFile');
+Route::group([
+    'middleware' => ['auth']
+],function(){
+    Route::get('/home', 'HomeController@index')->name('home');
+});
+
