@@ -10,14 +10,19 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/',function(){
-    return view('welcome');
-});
-Route::auth();
-Route::get('/a/{file}','FilesController@getFile');
-Route::group([
-    'middleware' => ['auth']
-],function(){
-    Route::get('/home', 'HomeController@index')->name('home');
-});
+Route::middleware('throttle:60,1')->group(function() {
+	Route::get('/',function(){
+	    return view('welcome');
+	});
+	Route::auth();
+	Route::get('/a/{file}','FilesController@getFile');
+	Route::group([
+	    'middleware' => ['auth']
+	],function(){
+	    Route::get('/home', 'HomeController@index')->name('home');
+	});
+	Route::get('/test', function(){
+           return view('file');
+        });
 
+});
