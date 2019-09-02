@@ -10,3 +10,6 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 /storage/tinx
+resources/views/Tpl1
+app/Assets/swf/
+*/**/*.swp
