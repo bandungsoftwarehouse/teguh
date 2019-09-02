@@ -1,0 +1,12 @@
+public function login(Request $request)
+=======================================
+Adalah fungsi login yang dioverride dari AuthenticatesUsers.php menggantikan fungsi login default bawaan Laravel 5.8.
+
+[0001-1] Adalah pengecekan terhadap cridential fokus pada akses dari route web saja.
+         CODE:
+         if (auth()->guard('web')->attempt(['email' => $email, 'password' => $password])) {..}
+
+
+Fitur yang ditambahkan adalah :
+- [0001-2] Pengecekan apakah user tersebut sudah memiliki session atau tidak (artinya, user tersebut sedang login atau tidak), jika ada maka hapus session tersebut ganti dengan yang baru.
+(source: https://laravelcode.com/post/laravel-56-prevent-block-multiple-login-of-same-credentials)
