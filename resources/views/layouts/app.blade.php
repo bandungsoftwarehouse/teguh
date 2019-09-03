@@ -122,7 +122,7 @@
       <!--footer start-->
       <footer class="site-footer">
           <div class="text-center">
-              2014 - Alvarez.is
+	      {{ $date }} - <a href="{{ route('home') }}">{{ config('app.name', 'Laravel') }}</a>
               <a href="{{ route('home') }}#" class="go-top">
                   <i class="fa fa-angle-up"></i>
               </a>
