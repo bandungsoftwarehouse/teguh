@@ -15,14 +15,12 @@ Route::middleware('throttle:60,1')->group(function() {
 	    return view('welcome');
 	});
 	Route::auth();
-	Route::get('/a/{file}','FilesController@getFile');
+	Route::get('/file/{file}','FilesController@getFile');
 	Route::group([
 	    'middleware' => ['auth']
 	],function(){
 	    Route::get('/home', 'HomeController@index')->name('home');
+	    Route::resource('/menu','MenuController');
 	});
-	Route::get('/test', function(){
-           return view('file');
-        });
 
 });

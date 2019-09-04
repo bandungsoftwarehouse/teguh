@@ -12,16 +12,16 @@
     <title>{{ config('app.name', '__demo__') }}</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
-    <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="css/zabuto_calendar.css">
-    <link rel="stylesheet" type="text/css" href="js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="lineicons/style.css">    
+    <link href="/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/css/zabuto_calendar.css">
+    <link rel="stylesheet" type="text/css" href="/js/gritter/css/jquery.gritter.css" />
+    <link rel="stylesheet" type="text/css" href="/lineicons/style.css">    
     <style type="text/css">
         /*LEFT NAVIGATION ICON*/
         .dcjq-icon {
-            height:17px;
+            height:10px;
             width:17px;
             display:inline-block;
             /* background: url("img/nav-expand.png") no-repeat top; */
@@ -31,7 +31,7 @@
             -webkit-border-radius:3px;
             position:absolute;
             right:10px;
-            top:15px;
+            top:10px;
         }
         .active .dcjq-icon {
             background: url("{{ localasset('img/nav-expand.png') }}") no-repeat bottom;
@@ -122,8 +122,8 @@
       <!--footer start-->
       <footer class="site-footer">
           <div class="text-center">
-	      {{ $date }} - <a href="{{ route('home') }}">{{ config('app.name', 'Laravel') }}</a>
-              <a href="{{ route('home') }}#" class="go-top">
+	      {{ $date->year }} - <a href="{{ route('home') }}">{{ config('app.name', 'Laravel') }}</a>
+              <a href="#" class="go-top">
                   <i class="fa fa-angle-up"></i>
               </a>
           </div>
@@ -132,25 +132,25 @@
   </section>
 
     <!-- js placed at the end of the document so the pages load faster -->
-    <script src="js/jquery.js"></script>
-    <script src="js/jquery-1.8.3.min.js"></script>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/jquery-1.8.3.min.js"></script>
     
-    <script src="js/bootstrap.min.js"></script>
-    <script class="include" type="text/javascript" src="js/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="js/jquery.scrollTo.min.js"></script>
-    <script src="js/jquery.nicescroll.js" type="text/javascript"></script>
-    <script src="js/jquery.sparkline.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script class="include" type="text/javascript" src="/js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="/js/jquery.scrollTo.min.js"></script>
+    <script src="/js/jquery.nicescroll.js" type="text/javascript"></script>
+    <script src="/js/jquery.sparkline.js"></script>
 
 
     <!--common script for all pages-->
     <!-- Scripts -->
-    {{-- <script src="{{ localasset('js/app.js') }}" defer></script> --}}
+    <script src="{{ localasset('js/app.js') }}" defer></script> 
     <script src="{{ localasset('js/chart-master/Chart.js') }}"></script>
 
     <script src="{{ localasset('js/common-scripts.js') }}"></script>
     
-    <script type="text/javascript" src="js/gritter/js/jquery.gritter.js"></script>
-    <script type="text/javascript" src="js/gritter-conf.js"></script>
+    <script type="text/javascript" src="/js/gritter/js/jquery.gritter.js"></script>
+    <script type="text/javascript" src="/js/gritter-conf.js"></script>
 
     <!--script for this page-->
     @yield('scripts')

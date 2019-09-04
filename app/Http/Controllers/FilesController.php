@@ -47,7 +47,7 @@ class FilesController extends Controller
         } else {
             $uuid = $file->uuid;
         }
-        return '/a/' . $uuid;
+        return '/file/' . $uuid;
     }
 
     public function getFile($uuid){
