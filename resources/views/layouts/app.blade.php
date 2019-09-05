@@ -144,7 +144,7 @@
 
     <!--common script for all pages-->
     <!-- Scripts -->
-    <script src="{{ localasset('js/app.js') }}" defer></script> 
+    {{-- <script src="{{ localasset('js/app.js') }}" defer></script> --}}
     <script src="{{ localasset('js/chart-master/Chart.js') }}"></script>
 
     <script src="{{ localasset('js/common-scripts.js') }}"></script>
