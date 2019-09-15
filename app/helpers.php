@@ -10,8 +10,7 @@ if (! function_exists('localasset')) {
 
 if (! function_exists('render')) {
     function render($view = null, $data = [], $mergeData = []) {
-        if (env('TEMPLATE') != '')
-            $view = env('TEMPLATE') . '.' . $view;
+        $view = config('app.template') . '.' . $view;
         return view($view, $data, $mergeData)->with('date',Date::now());
     }
 }

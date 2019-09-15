@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Country;
 use App\User;
+use App\Group;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -28,7 +32,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/verify';
 
     /**
      * Create a new controller instance.
@@ -48,10 +52,14 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+	\Log::info('country:'.$data['country']);
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+	    'refferal' => ['required', 'string', 'min:32'],
+	    'country' => ['required','numeric','min:1','max:243'],
+	    'phone' => ['required','numeric'],
         ]);
     }
 
@@ -63,15 +71,45 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+	$refferer = User::where('affiliate_code',$data['refferal'])->first();
+	$refferer_id = !$refferer ? 3 : $refferer->id;
+	$group = Group::where('groupname','User')->first();
+	$country = Country::findOrFail($data['country']);
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+	    'level' => 'User',
+	    'affiliate_code' => md5(Hash::make($data['email'])),
+	    'reffered_by' => $refferer_id,
+	    'icon' => 'blankuser.png',
+	    'country' => $data['country'],
+	    'phone' => '+('.$country->code.')'.$data['phone'],
         ]);
+        return $user;
     }
 
     public function showRegistrationForm()
     {
-    	return render('auth.register');
+	$countries = Country::all();
+        if(!\Request::has('reff')||\Request::get('reff')==''){
+            $user = User::find(3);
+            \Session::regenerate();
+            \Session::forget('refferal');
+            \Session::put('refferal',$user->affiliate_code);
+        }
+    	return render('auth.register')->with(compact('countries'));
+    }
+
+    public function register(Request $request)
+    {
+         $this->validator($request->all())->validate();
+
+         event(new Registered($user = $this->create($request->all())));
+
+         //$this->guard()->login($user);
+
+         return $this->registered($request, $user)
+                    ?: redirect($this->redirectPath());
     }
 }

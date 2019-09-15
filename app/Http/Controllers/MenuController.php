@@ -4,9 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Menu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
+use App\Group;
+use App\Menu as ListMenu;
 
 class MenuController extends Controller
 {
+    public function __construct()
+    {
+         return $this->middleware('management');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +22,8 @@ class MenuController extends Controller
      */
     public function index()
     {
-        //
+	$menus = ListMenu::all();
+        return render('menu.index')->with('menus',$menus);
     }
 
     /**
@@ -24,7 +33,7 @@ class MenuController extends Controller
      */
     public function create()
     {
-        //
+	return render('menu.add');
     }
 
     /**

@@ -43,8 +43,8 @@
         /*---*/
     </style> 
     <!-- Custom styles for this template -->
-    <link href="{{ localasset('css/style.css') }}" rel="stylesheet">
-    <link href="{{ localasset('css/style-responsive.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style-responsive.css') }}" rel="stylesheet">
 
     
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -72,9 +72,29 @@
             <a href="{{ route('home') }}" class="logo"><b>{{ config('app.name', 'Laravel') }}</b></a>
             <!--logo end-->
             <div class="nav notify-row" id="top_menu">
+                <ul class="nav top-menu">
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <i class="fa fa-envelope-o"></i>
+                            <span class="badge badge-theme">0</span>
+                        </a>
+                        <ul class="dropdown-menu extended inbox">
+                            <div class="notify-arrow notify-arrow-green"></div>
+                            <li>
+				<p class="green">You have 0 new follower(s)</p>
+                            </li>
+			</ul>
+                    </li>
+                </ul> 
+            </div>
+            <div class="info-panel hidden-xs">
+		<span class="badge" style="float:left" >
+                    Refferal URL: <span class="badge bg-warning">{{ url('/').'/?reff='.auth()->user()->affiliate_code }}</span>
+                </span>
             </div>
             <div class="top-menu">
             	<ul class="nav pull-right top-menu">
+                      
                     @guest
                     <li><a class="logout" href="{{ route('login') }}">{{ __('Login') }}</a></li>
                     @else
@@ -99,10 +119,6 @@
       <aside>
           <div id="sidebar"  class="nav-collapse ">
               <!-- sidebar menu start-->
-              <div class="profile">
-              	  <p class="centered"><a href="/profile"><img src="{{ asset('users/'.auth()->user()->foto) }}" class="img-circle" width="60"></a></p> 
-              	  <h5 class="centered">{{ auth()->user()->name }}</h5>
-              </div>
               @include('layouts.sidebar-menu')
               <!-- sidebar menu end-->
           </div>
@@ -136,7 +152,7 @@
     <script src="/js/jquery-1.8.3.min.js"></script>
     
     <script src="/js/bootstrap.min.js"></script>
-    <script class="include" type="text/javascript" src="/js/jquery.dcjqaccordion.2.7.js"></script>
+    <script class="include" type="text/javascript" src="{{ asset('js/jquery.dcjqaccordion.2.7.js') }}"></script>
     <script src="/js/jquery.scrollTo.min.js"></script>
     <script src="/js/jquery.nicescroll.js" type="text/javascript"></script>
     <script src="/js/jquery.sparkline.js"></script>
@@ -145,9 +161,9 @@
     <!--common script for all pages-->
     <!-- Scripts -->
     {{-- <script src="{{ localasset('js/app.js') }}" defer></script> --}}
-    <script src="{{ localasset('js/chart-master/Chart.js') }}"></script>
+    {{-- <script src="{{ asset('js/chart-master/Chart.js') }}"></script> --}}
 
-    <script src="{{ localasset('js/common-scripts.js') }}"></script>
+    <script src="{{ asset('js/common-scripts.js') }}"></script>
     
     <script type="text/javascript" src="/js/gritter/js/jquery.gritter.js"></script>
     <script type="text/javascript" src="/js/gritter-conf.js"></script>
@@ -156,5 +172,5 @@
     @yield('scripts')
 @endguest  
 
-  </body>
-</html>
+  </body> 
+</html> 

@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use \App\Menu as Menu;
 
 class GenerateMenus
 {
@@ -15,25 +16,47 @@ class GenerateMenus
      */
     public function handle($request, Closure $next)
     {
-        \Menu::make('MyNavBar', function ($menu) {
-            $home = $menu->add('home',['class'=>'sub-menu']);
-            $home->attr(['href'=>'javascript:;'])
-                ->prepend('<i class="fa fa-desktop"></i>');
-            $models = $menu->add('Models', ['class'=>'sub-menu'])
-                ->attr(['href'=>'javascript:;'])
-                ->prepend('<i class="fa fa-mobile"></i>');
-            $models->add('IPhone','iphone');
-            $models->add('Samsung','samsung');
-            $models->add('Oppo','Oppo');
-            $models->add('Vivo','Vivo');
-            $models->add('Huawei','huawei');
-            $menu->add('About', ['class'=>'sub-menu'])
-                ->attr(['href'=>'javascript:;'])
-                ->prepend('<i class="fa fa-book"></i>');
-            $menu->add('Services', ['class'=>'sub-menu']);
-            $menu->add('Contact', ['class'=>'sub-menu']);
-        });
-
+        if (!auth()->check()) {
+          return $next($request);
+        }
+	$menus = Menu::all();
+        $group = 'user';
+        \Menu::make('MyNavBar', function ($menu) use ($menus,$group) {
+            $branch = [];
+            $home = $menu->add('Home',['class'=>'sub-menu'])->before(view('layouts.profile'))
+                         ->prepend('<i class="fa fa-home"></i>');
+                         $home->link->href('/home');
+	    $branch[0] = $home;
+	    foreach ($menus as $m) {
+		/**
+		 * LOGIC: 
+		 * jika dari semua group yang dimiliki oleh menu ini tidak ada satupun yang 
+		 * menjadi salah satu group dari current user, maka skip 
+		 */
+		if(
+			$m->groups()->whereHas('users',function($r){
+				$r->where('users.id',auth()->user()->id);
+			})->count() == 0
+		) {
+			   continue;
+		} 
+		if($m->parent==NULL) {
+		    $branch[$m->id] = $menu->add($m->text,['class'=>'sub-menu'])
+                                      ->prepend('<i class="fa fa-'.$m->icon.'"></i>');
+		    $branch[$m->id]->link->href($m->url);
+		} else {
+		    if(!array_key_exists($m->parent,$branch)) continue;
+		    $detail = $m->product()->has('detail')->first();
+		    $branch[$m->id] = $branch[$m->parent]->add($m->text,['class'=>'sub-menu'])
+                                      ->prepend('<i class="fa fa-'.$m->icon.'"></i>');
+		    if($detail){
+		      $branch[$m->id]->link->href('/model/'.$detail->id);
+                    } else {
+		      $branch[$m->id]->link->href('/promo/'.$m->id);
+		    }
+		}
+	    }
+	});
         return $next($request);
     }
 }

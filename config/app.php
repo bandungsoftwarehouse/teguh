@@ -229,4 +229,6 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
+    'template' => env('TEMPLATE', ''),
+
 ];

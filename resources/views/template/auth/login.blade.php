@@ -5,7 +5,7 @@
 
 		<form method="POST" class="form-login" action="{{ route('login') }}">
 		@csrf
-		<h2 class="form-login-heading">sign in now sekarang</h2>
+		<h2 class="form-login-heading">sign in now</h2>
 		<div class="login-wrap">
 			<input id="email" type="text" name="email" class="form-control" placeholder="User ID" autofocus>
 			<br>
@@ -30,8 +30,8 @@
 --}}
 			<div class="registration">
 				Don't have an account yet?<br/>
-				<a class="" href="#">
-					Create an account
+				<a class="" href="{{ route('register') . '?reff=' . session('refferal') }}">
+					Create an account Baru
 				</a>
 			</div>
 

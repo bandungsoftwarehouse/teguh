@@ -12,4 +12,7 @@ yarn-error.log
 /storage/tinx
 resources/views/Tpl1
 app/Assets/swf/
+!app/Assets/
 */**/*.swp
+*/**/*.swn
+*/**/*.swo

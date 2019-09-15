@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use App\User;
+use Illuminate\Validation\Rule;
+use App\User as User;
 
 class LoginController extends Controller
 {
@@ -48,7 +49,7 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $this->validateLogin($request);
-
+\Log::info('oke');
         if (method_exists($this, 'hasTooManyLoginAttempts') &&
             $this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
@@ -59,6 +60,7 @@ class LoginController extends Controller
         if ($this->attemptLogin($request)) {
             return $this->sendLoginResponse($request);
         }
+	\Log::warning('Error Login');
 
         // If the login attempt was unsuccessful we will increment the number of attempts
         // to login and redirect the user back to the login form. Of course, when this
@@ -70,24 +72,39 @@ class LoginController extends Controller
 
     protected function credentials(Request $request)
     {
-        return $request->only($this->username(), 'password', 'status');
+        return $request->only($this->username(), 'password','status','level');
     }
 
     protected function validateLogin(Request $request)
     {
-        $request->validate([
-            $this->username() => 'required|string',
+        \Log::info('Validating ...');
+        $o = $request->validate([
+            $this->username() => 'required|string|email',
             'password' => 'required|string',
-            'status' => 'A',
         ]);
     }
 
     protected function attemptLogin(Request $request)
     {
-        $request->request->add(['status' => 'A']);
         return $this->guard()->attempt(
             $this->credentials($request), $request->filled('remember')
         );
+    }
+
+    public function authenticated(Request $request, $user)
+    {
+        \Log::info('authenticating....');
+        if (!$user->groups()
+                  ->where('groupname',['user','admin','operator','sales'])
+                  ->first()) {
+            auth()->logout();
+            return back()->with('warning', 'You are not authorized to access this page');
+        }
+        if ($user->status=='D') {
+            auth()->logout();
+            return back()->with('warning', 'Your status is disabled. Call administrator for this case');
+        }
+        return redirect()->intended($this->redirectPath());
     }
 
 }
