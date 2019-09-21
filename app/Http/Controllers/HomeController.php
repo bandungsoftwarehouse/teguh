@@ -13,6 +13,10 @@ class HomeController extends Controller
 
     public function index()
     {
-        return render('home');
+        $user = auth()->user();
+        $info = [
+            'refferals' => $user->refferals->count()
+        ];
+        return render('home')->with(compact('info'));
     }
 }

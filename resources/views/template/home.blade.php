@@ -31,9 +31,9 @@
                     <div class="col-md-2 col-sm-2 col-md-offset-1 box0">
                         <div class="box1">
                             <span class="li_heart"></span>
-                            <h3>{{-- $info['refferals'] --}}</h3>
+                            <h3>{{ $info['refferals'] }}</h3>
                         </div>
-                        <p>{{-- $info['refferals'] --}} People has join because of you!</p>
+                        <p>{{ $info['refferals'] }} People has join because of you!</p>
                     </div>
                     <div class="col-md-2 col-sm-2 box0">
                         <div class="box1">
