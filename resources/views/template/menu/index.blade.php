@@ -13,9 +13,9 @@
 			<tr>
                             <th width="10px"></th>
                             <th>Menu Name</th>
-                            <th>Description</th>
-                            <th>URL</th>
-                            <th>Parent</th>
+                            <th class="hidden-xs">Description</th>
+                            <th class="hidden-xs">URL</th>
+                            <th class="">Parent</th>
                             <th width="150px"></th>
                         </tr>
                     </thead>
@@ -27,10 +27,10 @@
                                     <input type="checkbox" value="{{ $m->id }}">
                                 </label>
                             </td>
-                            <td>{{ $m->text }}</td>
-                            <td>{{ $m->description }}</td>
-                            <td>{{ $m->url }}</td>
-			    <td>{{ $m->parent }}</td>
+                            <td class="">{{ $m->text }}</td>
+                            <td class="hidden-xs">{{ $m->description }}</td>
+                            <td class="hidden-xs">{{ $m->url }}</td>
+			    <td class="">{{ $m->parent }}</td>
 			    <td>
                                 <button class="btn btn-theme" type="button">Edit</button>
                                 <button class="btn btn-theme" type="button">Delete</button>
@@ -48,5 +48,4 @@
         </div>
     </section><! --/wrapper --> 
 </section><!-- /MAIN CONTENT -->
-
 @endsection
