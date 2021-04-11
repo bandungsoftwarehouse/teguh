@@ -8,6 +8,7 @@
             <div class="col-lg-12">
                 <div class="darkblue-panel">
                     <form class="form-horizontal style-form" action="/menu/add" method="post">
+                    @csrf 
                     <div class="row darkblue-heder">
                         <h4>
                             <i class="fa fa-compass"></i>
@@ -15,7 +16,6 @@
                         </h4>
                     </div>
                     <div class="row form-panel">
-                    @csrf 
                         <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label">Menu Name</label>
                             <div class="col-sm-10">
@@ -57,7 +57,8 @@
                             <div class="col-sm-10">
                                 <div class="switch has-switch">
                                     <div class="switch-animate switch-on">
-                                        <input type="checkbox" checked="checked" data-toggle="switch">
+					<input type="checkbox" data-toggle="switch"
+                                        >
                                         <span class="switch-left">ON</span>
 					<label>&nbsp;</label>
                                         <span class="switch-right">OFF</span>
@@ -69,8 +70,9 @@
                     <footer>
                         <div class="centered">
                             <button type="submit" class="btn btn-theme04">Save</button>
+                            <a class="btn btn-primary" href="/menu">Cancel</a>
                         </div>
-                        End of Add
+                        <br>
                     </footer>
                     </form>
                 </div>

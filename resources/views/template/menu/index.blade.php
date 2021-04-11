@@ -32,7 +32,7 @@
                             <td class="hidden-xs">{{ $m->url }}</td>
 			    <td class="">{{ $m->parent }}</td>
 			    <td>
-                                <button class="btn btn-theme" type="button">Edit</button>
+                                <a class="btn btn-theme" href="/menu/{{ $m->id }}/edit">Edit</a>
                                 <button class="btn btn-theme" type="button">Delete</button>
                             </td>
                         </tr>

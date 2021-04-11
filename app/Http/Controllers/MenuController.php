@@ -10,8 +10,26 @@ use App\Menu as ListMenu;
 
 class MenuController extends Controller
 {
+    private $icons;
+    private $groups;
+
     public function __construct()
     {
+         $this->icons = collect([
+             ['class'=>'mobile'],
+             ['class'=>'home'],
+             ['class'=>'dashboard'],
+             ['class'=>'calendar'],
+             ['class'=>'circle-o'],
+             ['class'=>'info-circle'],
+             ['class'=>'bell'],
+             ['class'=>'bolt'],
+             ['class'=>'briefcase'],
+             ['class'=>'cube'],
+             ['class'=>'desktop'],
+             ['class'=>'hand-o-right'],
+	 ]);
+	 $this->groups = Group::all();
          return $this->middleware('management');
     }
 
@@ -66,7 +84,9 @@ class MenuController extends Controller
      */
     public function edit(Menu $menu)
     {
-        //
+        return render('menu.edit')->with(compact('menu'))
+		                  ->with('groups',$this->groups)
+      	                          ->with('icons',$this->icons);
     }
 
     /**
